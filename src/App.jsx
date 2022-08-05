@@ -153,7 +153,7 @@ function App() {
 
           <div className="w-1/3">
             <div className="rounded-md border">
-              <form className="px-4 py-6 flex flex-col gap-4">
+              <form className="px-6 py-6 flex flex-col gap-4">
                 <h3 className="text-xl font-semibold">Servicio</h3>
                 <label htmlFor="name">
                   Nombre
@@ -175,7 +175,7 @@ function App() {
                   />
                 </label>
               </form>
-              <div className="py-3 px-4 mt-4 flex gap-4 bg-gray-100 border-t">
+              <div className="py-3 px-6 mt-4 flex gap-4 bg-gray-100 border-t">
                 <button className="px-3 py-1 border border-green-500 rounded-md text-green-500 hover:bg-green-500 hover:text-white">
                   Grabar
                 </button>
