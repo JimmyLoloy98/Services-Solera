@@ -61,6 +61,13 @@ function App() {
     setSelectedService(null);
   }
 
+  function handleKeyPressed(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit();
+    }
+  }
+
   function handleSubmit() {
     if (nameService === "" || descriptionService === "") {
       return alert("Necesitas completar todos los campos");
@@ -90,8 +97,7 @@ function App() {
   return (
     <main className="my-8 m-auto w-11/12">
       <div>
-        <h1 className="text-4xl font-semibold w-full text-center">Servicios</h1>git ss
-        
+        <h1 className="text-4xl font-semibold w-full text-center">Servicios</h1>
         <nav className="py-3 px-6 my-6 w-full bg-gray-100">
           <ul className="flex gap-4">
             <li>
@@ -151,7 +157,10 @@ function App() {
 
           <div className="w-1/3">
             <div className="rounded-md border">
-              <form className="px-6 py-6 flex flex-col gap-4">
+              <form
+                onKeyPress={handleKeyPressed}
+                className="px-6 py-6 flex flex-col gap-4"
+              >
                 <h3 className="text-xl font-semibold">Servicio</h3>
                 <label htmlFor="name">
                   Nombre
