@@ -1,154 +1,147 @@
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
+const categories = [
+  { id: 1, name: "Autos", category: "A" },
+  { id: 2, name: "Salud", category: "S" },
+  { id: 3, name: "Hogar", category: "H" },
+];
+
 function App() {
+  const [data, setData] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
+  const [nameService, setNameService] = useState("");
+  const [descriptionService, setDescriptionService] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const getData = () => {
+    fetch("services.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (services) {
+        setData(services);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function getName(event) {
+    const nameService = event.target.value;
+    setNameService(nameService);
+  }
+
+  function getDescription(event) {
+    const descriptionService = event.target.value;
+    setDescriptionService(descriptionService);
+  }
+
+  function handleEditService(id) {
+    let serviceFounded = data.find((item) => item.id === id);
+    setSelectedService(serviceFounded);
+    setNameService(serviceFounded.name);
+    setDescriptionService(serviceFounded.description);
+  }
+
+  function handleDelete(id) {
+    let newData = data.filter((item) => item.id !== id);
+    setData(newData);
+  }
+
+  function resetForm() {
+    setNameService("");
+    setDescriptionService("");
+    setSelectedService(null);
+  }
+
+  function handleSubmit() {
+    if (selectedService) {
+      selectedService.name = nameService;
+      selectedService.description = descriptionService;
+    } else {
+      const newService = {
+        name: nameService,
+        description: descriptionService,
+      };
+      setData([...data, newService]);
+    }
+    resetForm();
+  }
+
+  function filterData(data) {
+    if (selectedCategory === null) {
+      return data;
+    } else {
+      return data.filter((item) => item.category === selectedCategory);
+    }
+  }
+
   return (
-    <main className="mt-8 m-auto w-11/12">
+    <main className="my-8 m-auto w-11/12">
       <div>
         <h1 className="text-4xl font-semibold w-full text-center">Servicios</h1>
         <nav className="py-3 px-6 my-6 w-full bg-gray-100">
           <ul className="flex gap-4">
             <li>
-              <a
-                href="#"
+              <button
+                onClick={() => setSelectedCategory(null)}
                 className="text-gray-600 hover:text-gray-900 cursor-pointer"
               >
                 Todos
-              </a>
+              </button>
             </li>
-
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-900 cursor-pointer"
-              >
-                Autos
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-900 cursor-pointer"
-              >
-                Salud
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 hover:text-gray-900 cursor-pointer"
-              >
-                Hogar
-              </a>
-            </li>
+            {categories.map((category, index) => {
+              return (
+                <li key={index}>
+                  <button
+                    onClick={() => setSelectedCategory(category.category)}
+                    className="text-gray-600 hover:text-gray-900 active:text-gray-900 cursor-pointer"
+                  >
+                    {category.name}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </nav>
+
         <section className="flex w-full gap-x-8">
-          <div className="w-2/3 grid grid-cols-3 gap-x-8 gap-y-4">
-            <div className="rounded-md border">
-              <div className="px-4 py-6">
-                <h3 className="mb-3 text-xl font-semibold">Electricidad</h3>
-                <p className="text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                </p>
-              </div>
-              <div className="bg-gray-100 border-t py-4 px-4 text-blue-500 flex gap-4">
-                <span className="cursor-pointer hover:text-blue-700">
-                  Editar
-                </span>
-                <span className="cursor-pointer hover:text-blue-700">
-                  Eliminar
-                </span>
-              </div>
-            </div>
-
-            <div className="rounded-md border">
-              <div className="px-4 py-6">
-                <h3 className="mb-3 text-xl font-semibold">Auxilio mecánico</h3>
-                <p className="text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                </p>
-              </div>
-              <div className="bg-gray-100 border-t py-4 px-4 text-blue-500 flex gap-4">
-                <span className="cursor-pointer hover:text-blue-700">
-                  Editar
-                </span>
-                <span className="cursor-pointer hover:text-blue-700">
-                  Eliminar
-                </span>
-              </div>
-            </div>
-
-            <div className="rounded-md border">
-              <div className="px-4 py-6">
-                <h3 className="mb-3 text-xl font-semibold">Chofer reemplazo</h3>
-                <p className="text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                </p>
-              </div>
-              <div className="bg-gray-100 border-t py-4 px-4 text-blue-500 flex gap-4">
-                <span className="cursor-pointer hover:text-blue-700">
-                  Editar
-                </span>
-                <span className="cursor-pointer hover:text-blue-700">
-                  Eliminar
-                </span>
-              </div>
-            </div>
-
-            <div className="rounded-md border">
-              <div className="px-4 py-6">
-                <h3 className="mb-3 text-xl font-semibold">
-                  Médico a domicilio
-                </h3>
-                <p className="text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                </p>
-              </div>
-              <div className="bg-gray-100 border-t py-4 px-4 text-blue-500 flex gap-4">
-                <span className="cursor-pointer hover:text-blue-700">
-                  Editar
-                </span>
-                <span className="cursor-pointer hover:text-blue-700">
-                  Eliminar
-                </span>
-              </div>
-            </div>
-
-            <div className="rounded-md border">
-              <div className="px-4 py-6">
-                <h3 className="mb-3 text-xl font-semibold">Ambulancia</h3>
-                <p className="text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                </p>
-              </div>
-              <div className="bg-gray-100 border-t py-4 px-4 text-blue-500 flex gap-4">
-                <span className="cursor-pointer hover:text-blue-700">
-                  Editar
-                </span>
-                <span className="cursor-pointer hover:text-blue-700">
-                  Eliminar
-                </span>
-              </div>
-            </div>
-
-            <div className="rounded-md border">
-              <div className="px-4 py-6">
-                <h3 className="mb-3 text-xl font-semibold">Gasfitero</h3>
-                <p className="text-gray-600">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                </p>
-              </div>
-              <div className="bg-gray-100 border-t py-4 px-4 text-blue-500 flex gap-4">
-                <span className="cursor-pointer hover:text-blue-700">
-                  Editar
-                </span>
-                <span className="cursor-pointer hover:text-blue-700">
-                  Eliminar
-                </span>
-              </div>
-            </div>
+          <div className="w-2/3 grid grid-cols-3 grid-rows-3 gap-x-8 gap-y-4">
+            {filterData(data).map((service, index) => {
+              return (
+                <div className="rounded-md border relative" key={index}>
+                  <div className=" mb-14 px-4 py-6">
+                    <h3 className="mb-3 text-xl font-semibold">
+                      {service.name}
+                    </h3>
+                    <p className="text-gray-600 flex flex-wrap">
+                      {service.description}
+                    </p>
+                  </div>
+                  <div className="py-4 px-4 absolute bottom-0 w-full bg-gray-100 border-t text-blue-500 flex gap-4 flex-wrap">
+                    <button
+                      onClick={() => handleEditService(service.id)}
+                      className="hover:text-blue-700"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleDelete(service.id)}
+                      className="hover:text-blue-700"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           <div className="w-1/3">
@@ -158,6 +151,8 @@ function App() {
                 <label htmlFor="name">
                   Nombre
                   <input
+                    onChange={getName}
+                    value={nameService}
                     type="text"
                     name="form"
                     id="name"
@@ -168,6 +163,8 @@ function App() {
                 <label htmlFor="description">
                   Descripción
                   <input
+                    onChange={getDescription}
+                    value={descriptionService}
                     type="text"
                     name="form"
                     id="description"
@@ -176,10 +173,16 @@ function App() {
                 </label>
               </form>
               <div className="py-3 px-6 mt-4 flex gap-4 bg-gray-100 border-t">
-                <button className="px-3 py-1 border border-green-500 rounded-md text-green-500 hover:bg-green-500 hover:text-white">
+                <button
+                  onClick={handleSubmit}
+                  className="px-3 py-1 border border-green-500 rounded-md text-green-500 hover:bg-green-500 hover:text-white"
+                >
                   Grabar
                 </button>
-                <button className="px-3 py-1 border border-red-500 rounded-md text-red-500 hover:bg-red-500 hover:text-white">
+                <button
+                  onClick={resetForm}
+                  className="px-3 py-1 border border-red-500 rounded-md text-red-500 hover:bg-red-500 hover:text-white"
+                >
                   Cancelar
                 </button>
               </div>
