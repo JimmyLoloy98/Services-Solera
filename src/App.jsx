@@ -62,11 +62,15 @@ function App() {
   }
 
   function handleSubmit() {
+    if (nameService === "" || descriptionService === "") {
+      return alert("Necesitas completar todos los campos");
+    }
     if (selectedService) {
       selectedService.name = nameService;
       selectedService.description = descriptionService;
     } else {
       const newService = {
+        id: data.length + 1,
         name: nameService,
         description: descriptionService,
       };
@@ -86,7 +90,8 @@ function App() {
   return (
     <main className="my-8 m-auto w-11/12">
       <div>
-        <h1 className="text-4xl font-semibold w-full text-center">Servicios</h1>
+        <h1 className="text-4xl font-semibold w-full text-center">Servicios</h1>git ss
+        
         <nav className="py-3 px-6 my-6 w-full bg-gray-100">
           <ul className="flex gap-4">
             <li>
