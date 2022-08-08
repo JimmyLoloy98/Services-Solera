@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Filter from "./components/filter";
 import "./App.css";
-
-const categories = [
-  { id: "A", name: "Autos" },
-  { id: "S", name: "Salud" },
-  { id: "H", name: "Hogar" },
-];
 
 function App() {
   const [data, setData] = useState([]);
@@ -98,30 +93,7 @@ function App() {
     <main className="my-8 m-auto w-11/12">
       <div>
         <h1 className="text-4xl font-semibold w-full text-center">Servicios</h1>
-        <nav className="py-3 px-6 my-6 w-full bg-gray-100">
-          <ul className="flex gap-4">
-            <li>
-              <button
-                onClick={() => setSelectedCategory(null)}
-                className="text-gray-600 hover:text-gray-900 cursor-pointer"
-              >
-                Todos
-              </button>
-            </li>
-            {categories.map((category, index) => {
-              return (
-                <li key={index}>
-                  <button
-                    onClick={() => setSelectedCategory(category.id)}
-                    className="text-gray-600 hover:text-gray-900 active:text-gray-900 cursor-pointer"
-                  >
-                    {category.name}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+        <Filter menuFilter={setSelectedCategory} />
 
         <section className="flex w-full gap-x-8">
           <div className="w-2/3 grid grid-cols-3 grid-rows-3 gap-x-8 gap-y-4">
