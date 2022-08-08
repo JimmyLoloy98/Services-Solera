@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 const categories = [
-  { id: 1, name: "Autos", category: "A" },
-  { id: 2, name: "Salud", category: "S" },
-  { id: 3, name: "Hogar", category: "H" },
+  { id: "A", name: "Autos" },
+  { id: "S", name: "Salud" },
+  { id: "H", name: "Hogar" },
 ];
 
 function App() {
@@ -112,7 +112,7 @@ function App() {
               return (
                 <li key={index}>
                   <button
-                    onClick={() => setSelectedCategory(category.category)}
+                    onClick={() => setSelectedCategory(category.id)}
                     className="text-gray-600 hover:text-gray-900 active:text-gray-900 cursor-pointer"
                   >
                     {category.name}
