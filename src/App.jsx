@@ -44,14 +44,14 @@ function App() {
   }
 
   function handleEditService(id) {
-    let serviceFounded = data.find((item) => item.id === id);
+    const serviceFounded = data.find((item) => item.id === id);
     setSelectedService(serviceFounded);
     setNameService(serviceFounded.name);
     setDescriptionService(serviceFounded.description);
   }
 
   function handleDelete(id) {
-    let newData = data.filter((item) => item.id !== id);
+    const newData = data.filter((item) => item.id !== id);
     setData(newData);
   }
 
